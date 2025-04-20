@@ -1,16 +1,16 @@
 {
-  "options": {
-    "theme": "base16-catppuccin-mocha",
-    "transparent": true,
-    "indent": 4,
-    "rulers": [80],
-    "wrap": false,
-    "lineNumbers": "normalOnly",
-    "useTabs": true
-  },
-  "formatters": {
-    "jsonc": ["prettier"],
-    "json": ["prettier"],
-    "html": ["prettier"]
-  }
+	"options": {
+		"theme": "base16-catppuccin-mocha",
+		"transparent": true,
+		"indent": 4,
+		"rulers": [80],
+		"wrap": false,
+		"lineNumbers": "normalOnly",
+		"useTabs": true
+	},
+	"formatters": {
+		"jsonc": ["prettier"],
+		"json": ["prettier"],
+		"html": ["prettier"]
+	}
 }
