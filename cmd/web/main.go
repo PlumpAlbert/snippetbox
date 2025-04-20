@@ -25,6 +25,12 @@ func main() {
 
 	infoLog.Printf("Starting server on %s\n", *addr)
 
-	err := http.ListenAndServe(*addr, mux)
+	srv := &http.Server{
+		Addr:     *addr,
+		ErrorLog: errLog,
+		Handler:  mux,
+	}
+
+	err := srv.ListenAndServe()
 	errLog.Fatal(err)
 }
