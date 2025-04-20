@@ -3,5 +3,6 @@
 	"printWidth": 100,
 	"useTabs": true,
 	"singleAttributePerLine": true,
-	"tabWidth": 4
+	"tabWidth": 4,
+	"plugins": ["prettier-plugin-go-template"]
 }
