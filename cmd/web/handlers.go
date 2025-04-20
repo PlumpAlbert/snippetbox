@@ -14,14 +14,17 @@ func IndexHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	ts, err := template.ParseFiles("./ui/html/pages/home.html")
+	ts, err := template.ParseFiles(
+		"./ui/html/base.html.tmpl",
+		"./ui/html/pages/home.html.tmpl",
+	)
 	if err != nil {
 		log.Println(err.Error())
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 		return
 	}
 
-	if err = ts.Execute(w, nil); err != nil {
+	if err = ts.ExecuteTemplate(w, "base", nil); err != nil {
 		log.Println(err.Error())
 		http.Error(w, "internal server error", http.StatusInternalServerError)
 	}
