@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+	"html/template"
+	"log"
 	"net/http"
 	"strconv"
 )
@@ -12,7 +14,17 @@ func IndexHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	w.Write([]byte("Welcome to Snippetbox!"))
+	ts, err := template.ParseFiles("./ui/html/pages/home.html")
+	if err != nil {
+		log.Println(err.Error())
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+
+	if err = ts.Execute(w, nil); err != nil {
+		log.Println(err.Error())
+		http.Error(w, "internal server error", http.StatusInternalServerError)
+	}
 }
 
 func SnippetViewHandler(w http.ResponseWriter, r *http.Request) {
