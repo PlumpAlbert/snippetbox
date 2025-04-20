@@ -16,6 +16,7 @@ func IndexHandler(w http.ResponseWriter, r *http.Request) {
 
 	ts, err := template.ParseFiles(
 		"./ui/html/base.html.tmpl",
+		"./ui/html/partials/nav.html.tmpl",
 		"./ui/html/pages/home.html.tmpl",
 	)
 	if err != nil {
