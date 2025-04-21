@@ -8,11 +8,13 @@ import (
 	"os"
 
 	"github.com/jackc/pgx/v5/pgxpool"
+	"github.com/plumpalbert/snippetbox/internal/models"
 )
 
 type application struct {
 	infoLog  *log.Logger
 	errorLog *log.Logger
+	snippets *models.SnippetModel
 }
 
 func main() {
@@ -33,6 +35,7 @@ func main() {
 	app := &application{
 		infoLog:  infoLog,
 		errorLog: errLog,
+		snippets: &models.SnippetModel{DB: db},
 	}
 
 	infoLog.Printf("Starting server on %s\n", *addr)
