@@ -46,5 +46,15 @@ func (app *application) SnippetCreateHandler(w http.ResponseWriter, r *http.Requ
 		return
 	}
 
-	w.Write([]byte("Create a new snippet..."))
+	id, err := app.snippets.Insert(
+		"Oh snail",
+		"Oh snail\nClimb Mount Fuji,\nBut slowly, slowly!\n\n- Kobayashi Issa",
+		7,
+	)
+	if err != nil {
+		app.serverError(w, err)
+		return
+	}
+
+	http.Redirect(w, r, fmt.Sprintf("/snippet/view?id=%d", id), http.StatusSeeOther)
 }
