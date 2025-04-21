@@ -3,7 +3,7 @@ package main
 import (
 	"errors"
 	"fmt"
-	// "html/template"
+	"html/template"
 	"net/http"
 	"strconv"
 
@@ -16,30 +16,20 @@ func (app *application) IndexHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	snippets, err := app.snippets.Latest()
+	ts, err := template.ParseFiles(
+		"./ui/html/base.html.tmpl",
+		"./ui/html/partials/nav.html.tmpl",
+		"./ui/html/pages/home.html.tmpl",
+	)
 	if err != nil {
 		app.serverError(w, err)
 		return
 	}
 
-	for _, snippet := range snippets {
-		fmt.Fprintf(w, "%+v\n", snippet)
+	if err = ts.ExecuteTemplate(w, "base", nil); err != nil {
+		app.serverError(w, err)
+		return
 	}
-
-	// ts, err := template.ParseFiles(
-	// 	"./ui/html/base.html.tmpl",
-	// 	"./ui/html/partials/nav.html.tmpl",
-	// 	"./ui/html/pages/home.html.tmpl",
-	// )
-	// if err != nil {
-	// 	app.serverError(w, err)
-	// 	return
-	// }
-	//
-	// if err = ts.ExecuteTemplate(w, "base", nil); err != nil {
-	// 	app.serverError(w, err)
-	// 	return
-	// }
 }
 
 func (app *application) SnippetViewHandler(w http.ResponseWriter, r *http.Request) {
@@ -60,7 +50,19 @@ func (app *application) SnippetViewHandler(w http.ResponseWriter, r *http.Reques
 		return
 	}
 
-	fmt.Fprintf(w, "%+v", snippet)
+	ts, err := template.ParseFiles(
+		"./ui/html/base.html.tmpl",
+		"./ui/html/partials/nav.html.tmpl",
+		"./ui/html/pages/view.html.tmpl",
+	)
+	if err != nil {
+		app.serverError(w, err)
+		return
+	}
+
+	if err = ts.ExecuteTemplate(w, "base", snippet); err != nil {
+		app.serverError(w, err)
+	}
 }
 
 func (app *application) SnippetCreateHandler(w http.ResponseWriter, r *http.Request) {
