@@ -2,8 +2,14 @@
 
 {{ define "main" }}
 	<h2>Latest Snippets</h2>
-	<p>There's nothing to see here yet!</p>
+	{{ range  . }}
+		<p>
+			<a href="/snippet/view?id={{ .ID }}"><strong>{{ .Title }}</strong></a>
+		</p>
+	{{ else }}
+		<p>There's nothing to see here yet!</p>
+	{{ end }}
 {{ end }}
 <!--
-vim:ft=gotmpl:
+vim:ft=html:
 -->
