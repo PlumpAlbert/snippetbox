@@ -9,7 +9,7 @@ import (
 
 func (app *application) IndexHandler(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/" {
-		http.NotFound(w, r)
+		app.notFound(w)
 		return
 	}
 
@@ -19,21 +19,20 @@ func (app *application) IndexHandler(w http.ResponseWriter, r *http.Request) {
 		"./ui/html/pages/home.html.tmpl",
 	)
 	if err != nil {
-		app.errorLog.Println(err.Error())
-		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		app.serverError(w, err)
 		return
 	}
 
 	if err = ts.ExecuteTemplate(w, "base", nil); err != nil {
-		app.errorLog.Println(err.Error())
-		http.Error(w, "internal server error", http.StatusInternalServerError)
+		app.serverError(w, err)
+		return
 	}
 }
 
 func (app *application) SnippetViewHandler(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.Atoi(r.URL.Query().Get("id"))
 	if err != nil {
-		http.NotFound(w, r)
+		app.notFound(w)
 		return
 	}
 
@@ -43,7 +42,7 @@ func (app *application) SnippetViewHandler(w http.ResponseWriter, r *http.Reques
 func (app *application) SnippetCreateHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
 		w.Header().Set("Allow", http.MethodPost)
-		http.Error(w, "Method not allowed!", http.StatusMethodNotAllowed)
+		app.clientError(w, http.StatusMethodNotAllowed)
 		return
 	}
 
