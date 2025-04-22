@@ -21,9 +21,10 @@ func (app *application) IndexHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	app.renderTemplate(w, http.StatusOK, "home.html.tmpl", &templateData{
-		Snippets: snippets,
-	})
+	data := app.newTemplateData(r)
+	data.Snippets = snippets
+
+	app.renderTemplate(w, http.StatusOK, "home.html.tmpl", data)
 }
 
 func (app *application) SnippetViewHandler(w http.ResponseWriter, r *http.Request) {
@@ -44,9 +45,10 @@ func (app *application) SnippetViewHandler(w http.ResponseWriter, r *http.Reques
 		return
 	}
 
-	app.renderTemplate(w, http.StatusOK, "view.html.tmpl", &templateData{
-		Snippet: snippet,
-	})
+	data := app.newTemplateData(r)
+	data.Snippet = snippet
+
+	app.renderTemplate(w, http.StatusOK, "view.html.tmpl", data)
 }
 
 func (app *application) SnippetCreateHandler(w http.ResponseWriter, r *http.Request) {
