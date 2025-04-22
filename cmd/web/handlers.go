@@ -3,7 +3,6 @@ package main
 import (
 	"errors"
 	"fmt"
-	"html/template"
 	"net/http"
 	"strconv"
 
@@ -16,30 +15,15 @@ func (app *application) IndexHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	ts, err := template.ParseFiles(
-		"./ui/html/base.html.tmpl",
-		"./ui/html/partials/nav.html.tmpl",
-		"./ui/html/pages/home.html.tmpl",
-	)
-	if err != nil {
-		app.serverError(w, err)
-		return
-	}
-
 	snippets, err := app.snippets.Latest()
 	if err != nil {
 		app.serverError(w, err)
 		return
 	}
 
-	data := &templateData{
+	app.renderTemplate(w, http.StatusOK, "home.html.tmpl", &templateData{
 		Snippets: snippets,
-	}
-
-	if err = ts.ExecuteTemplate(w, "base", data); err != nil {
-		app.serverError(w, err)
-		return
-	}
+	})
 }
 
 func (app *application) SnippetViewHandler(w http.ResponseWriter, r *http.Request) {
@@ -60,23 +44,9 @@ func (app *application) SnippetViewHandler(w http.ResponseWriter, r *http.Reques
 		return
 	}
 
-	ts, err := template.ParseFiles(
-		"./ui/html/base.html.tmpl",
-		"./ui/html/partials/nav.html.tmpl",
-		"./ui/html/pages/view.html.tmpl",
-	)
-	if err != nil {
-		app.serverError(w, err)
-		return
-	}
-
-	data := &templateData{
+	app.renderTemplate(w, http.StatusOK, "view.html.tmpl", &templateData{
 		Snippet: snippet,
-	}
-
-	if err = ts.ExecuteTemplate(w, "base", data); err != nil {
-		app.serverError(w, err)
-	}
+	})
 }
 
 func (app *application) SnippetCreateHandler(w http.ResponseWriter, r *http.Request) {
