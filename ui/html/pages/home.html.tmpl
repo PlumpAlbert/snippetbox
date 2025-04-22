@@ -15,7 +15,7 @@
 				{{ range .Snippets }}
 					<tr>
 						<td><a href="/snippet/view?id={{ .ID }}">{{ .Title }}</a></td>
-						<td>{{ .Created.Format "02.01.2006 15:04" }}</td>
+						<td>{{ humanDate .Created }}</td>
 						<td>#{{ .ID }}</td>
 					</tr>
 				{{ end }}
