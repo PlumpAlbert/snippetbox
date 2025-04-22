@@ -32,7 +32,11 @@ func (app *application) IndexHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if err = ts.ExecuteTemplate(w, "base", snippets); err != nil {
+	data := &templateData{
+		Snippets: snippets,
+	}
+
+	if err = ts.ExecuteTemplate(w, "base", data); err != nil {
 		app.serverError(w, err)
 		return
 	}
