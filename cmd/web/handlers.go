@@ -109,6 +109,9 @@ func (app *application) SnippetCreateHandler(w http.ResponseWriter, r *http.Requ
 
 func (app *application) SnippetCreateViewHandler(w http.ResponseWriter, r *http.Request) {
 	data := app.newTemplateData(r)
+	data.Form = snippetCreateForm{
+		Expires: 365,
+	}
 
 	app.renderTemplate(w, http.StatusOK, "create.html.tmpl", data)
 }

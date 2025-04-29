@@ -7,30 +7,56 @@
 	>
 		<div>
 			<label for="snippet_title">Title</label>
+			{{ with .Form.FieldErrors.title }}
+				<label
+					for="snippet_title"
+					class="error"
+				>
+					{{ . }}
+				</label>
+			{{ end }}
 			<input
 				type="text"
 				name="title"
 				id="snippet_title"
+				value="{{ .Form.Title }}"
 			/>
 		</div>
 
 		<div>
 			<label for="snippet_content">Content</label>
+			{{ with .Form.FieldErrors.content }}
+				<label
+					for="snippet_content"
+					class="error"
+				>
+					{{ . }}
+				</label>
+			{{ end }}
 			<textarea
 				name="content"
 				id="snippet_content"
 				rows="6"
-			></textarea>
+			>
+				{{ .Form.Content }}
+			</textarea
+			>
 		</div>
 
 		<div>
-			<label for="snippet_content">Delete in</label>
+			<label>Delete in</label>
+			{{ with .Form.FieldErrors.expires }}
+				<label class="error">
+					{{ . }}
+				</label>
+			{{ end }}
+
 
 			<input
 				type="radio"
 				name="expires"
 				value="365"
-				checked
+				{{ if (eq .Form.Expires 365) }}checked{{ end }}
 			/>
 			One Year
 
@@ -38,6 +64,7 @@
 				type="radio"
 				name="expires"
 				value="7"
+				{{ if (eq .Form.Expires 7) }}checked{{ end }}
 			/>
 			One Week
 
@@ -45,6 +72,7 @@
 				type="radio"
 				name="expires"
 				value="1"
+				{{ if (eq .Form.Expires 1) }}checked{{ end }}
 			/>
 			One Day
 		</div>
