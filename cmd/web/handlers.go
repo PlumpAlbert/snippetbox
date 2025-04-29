@@ -63,5 +63,7 @@ func (app *application) SnippetCreateHandler(w http.ResponseWriter, r *http.Requ
 }
 
 func (app *application) SnippetCreateViewHandler(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("hello"))
+	data := app.newTemplateData(r)
+
+	app.renderTemplate(w, http.StatusOK, "create.html.tmpl", data)
 }
