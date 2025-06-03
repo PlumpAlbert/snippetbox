@@ -1,6 +1,7 @@
 package validator
 
 import (
+	"slices"
 	"strings"
 	"unicode/utf8"
 )
@@ -38,11 +39,5 @@ func MaxChars(value string, n int) bool {
 }
 
 func PermittedInt(value int, permittedValues ...int) bool {
-	for i := range permittedValues {
-		if value == permittedValues[i] {
-			return true
-		}
-	}
-
-	return false
+	return slices.Contains(permittedValues, value)
 }
